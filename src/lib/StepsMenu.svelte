@@ -1,5 +1,11 @@
 <script>
 	import { step } from '$lib/projectStore';
+	import { currProject } from '$lib/projectStore';
+	import { get } from 'svelte/store';
+
+	$effect(() => {
+		console.log(get(currProject));
+	})
 </script>
 
 <div class="sticky top-28">
@@ -11,16 +17,19 @@
 	<button
 		onclick={() => step.set('editProject')}
 		class:text-primary={$step === 'editProject'}
+		class:btn-disabled={!$currProject?.name}
 		class="text-2xl font-bold my-2">2. Objects selection</button
 	>
 	<button
 		onclick={() => step.set('editObjects')}
 		class:text-primary={$step === 'editObjects'}
+		class:btn-disabled={!$currProject?.links}
 		class="text-2xl font-bold my-2">3. Images selection</button
 	>
 	<button
 		onclick={() => step.set('preview')}
 		class:text-primary={$step === 'preview'}
+		class:btn-disabled={!$currProject?.objects}
 		class="text-2xl font-bold my-2">4. Preview and save</button
 	>
 </div>

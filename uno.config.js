@@ -21,8 +21,9 @@ export default defineConfig({
 		'col-head': 'text-md font-bold border-b border-secondary p-2',
 		'col-body': 'p-2 border-b border-gray-300',
 		'toast': 'p-2 rounded-md',
-		'toast-success': 'bg-green-600 text-white',
-		'toast-alert': 'bg-red-600 text-white',
+		'toast-success': 'bg-green-100 border-1 border-green-700',
+		'toast-alert': 'bg-red-100 border-1 border-red-700',
+		'checkbox': 'w-4 h-4',
 	},
 	extractors: [extractorSvelte()],
 	presets: [

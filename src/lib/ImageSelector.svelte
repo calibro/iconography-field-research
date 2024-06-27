@@ -47,7 +47,7 @@
 			<div class="image-selector-images flex flex-wrap gap-2">
 				{#each $currObjects[i].assets as image}
 					<div class="image-selector-image w-48 h-48 relative bg-white">
-						<input class="absolute top-2 left-2" type="checkbox" bind:checked={image.selected} />
+						<input class="absolute top-2 left-2 checkbox" type="checkbox" bind:checked={image.selected} />
 						<div
 							class="image-selector-image-overlay flex w-full h-full justify-center items-center"
 						>

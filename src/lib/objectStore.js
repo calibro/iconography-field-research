@@ -29,10 +29,12 @@ const objectsQuery = (objIDs) => {
 	return `*[_type == "benin_object" && db_id in ${JSON.stringify(objIDs)}]{db_id,images}`;
 };
 
-export const getObjects = async () => {
+export const getObjects = async (givenIds) => {
 	let objList = get(objects);
 	let toFetch = [];
-	let ids = get(currProject).ids;
+	let ids = []
+	if(givenIds) ids = givenIds
+	else  ids = get(currProject).ids;
 	ids.forEach((id) => {
 		if (!objList[id]) {
 			toFetch.push(id);
@@ -44,6 +46,7 @@ export const getObjects = async () => {
 	}
     //objList = get(objects);
 	currObjects.set(ids.map((d) => objList[d]));
+	//return objList.map((d) => objList[d.db_id]);
 };
 
 const addObjects = (newObjects) => {

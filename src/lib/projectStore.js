@@ -1,4 +1,5 @@
 import { writable, get } from 'svelte/store';
+import { currObjects } from './objectStore';
 import { browser } from "$app/environment"
 import { v4 as uuidv4 } from 'uuid';
 
@@ -8,7 +9,6 @@ export const step = writable('init')
 
 currProject.subscribe((project) => {
     if(project){
-    console.log("autosaving")
     saveProject(project);
     }
 });
@@ -23,7 +23,7 @@ export const addProject = (project) => {
 
 export const getProjectByID = (id) => {
     let prj = get(projects).find((p) => p.id === id);
-    currProject.set(prj);
+    setCurrentProject(prj);
 }
 
 export const removeProject = (project) => {
@@ -31,11 +31,12 @@ export const removeProject = (project) => {
         return projects.filter((p) => p.id !== project.id);
     });
     saveAllProjects();
-
 }
 
 export const setCurrentProject = (project) => {
     currProject.set(project);
+    console.log("set current", project)
+    if(project.objects) currObjects.set(project.objects)
 }
 
 export const setProjectIds = (ids) => {
@@ -52,6 +53,13 @@ export const setProjectLinks = (links) => {
     })
 }
 
+export const setProjectObjects = () => {
+    //console.log("updating with objects", objects)
+    currProject.update((project) => {
+        return { ...project, objects: get(currObjects)};
+    })
+}
+
 export const saveProject = (project) => {
     projects.update((projects) => {
         const selPrj = projects.find((p) => p.id === project.id); // find the selected prj
@@ -59,7 +67,7 @@ export const saveProject = (project) => {
             return projects.map((p) => (p.id === project.id ? project : p));
         }
     });
-    console.log(get(projects));
+    //console.log(get(projects));
     saveAllProjects();
 }
 

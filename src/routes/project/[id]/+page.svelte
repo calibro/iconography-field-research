@@ -1,5 +1,6 @@
 <script>
 	import { addProject, setCurrentProject,getProjectByID, currProject,step } from '$lib/projectStore';
+	import { currObjects } from '$lib/objectStore';
 	import ProjectEditor from '$lib/ProjectEditor.svelte';
 	import ObjectsEditor from '$lib/ObjectsEditor.svelte';
 	import {get} from 'svelte/store';
@@ -13,6 +14,7 @@
 
 	const addNewProj = () => {
 		if($page.params.id === 'new') {
+
 			addProject(newProj);
 			setCurrentProject(newProj);	
 		}
@@ -27,6 +29,10 @@
 			getProjectByID(id);
 			newProj = get(currProject);
 		}	
+		else {
+			currProject.set(null)
+			currObjects.set({})
+		}
 		})
 		
 	})

@@ -6,15 +6,15 @@
 	$effect(async () => {
 		await getObjects();
 	});
-
+	/*
 	$effect(() => {
-		console.log('curr object', currObj);
+		//console.log('curr object', currObj);
 	});
-
+	*/
 	let currObj = $state(null);
 
 	currObjects.subscribe((objects) => {
-		console.log(objects);
+		//console.log(objects);
 		if (objects && currObj === null) currObj = 0;
 	});
 </script>
