@@ -1,6 +1,7 @@
 <script>
 	import { getObjects, currObjects } from '$lib/objectStore';
-    import { step } from '$lib/projectStore';
+	import { step } from '$lib/projectStore';
+	import ImageSelector from './ImageSelector.svelte';
 
 	$effect(async () => {
 		await getObjects();
@@ -18,31 +19,16 @@
 	});
 </script>
 
-<div class="proj-obj-edit grid grid-cols-8 gap-4">
-	<div class="proj-obj-list flex flex-col col-span-2">
-        <h2>Object List</h2>
-		{#each $currObjects as object, i}
-			<button onclick={() => (currObj = i)} class="mt-4 btn proj-obj-item">{object.db_id}</button>
-		{/each}
-        <button onclick={() => step.set('preview')} class="mt-4 btn proj-obj-item">Go to preview</button>
-	</div>
-
+<h1 class="text-3xl font-bold mb-4">Images selection</h1>
+<p class="mb-8">
+	Each object has multiple images. By default we will print the first one but you can add more
+	images to the selection if you want. Select the object and then the images if you want to print.
+	When your selection is over click on “Preview and save” to save your pdf.
+</p>
+<div class="proj-obj-edit flex flex-col gap-0 mb-12">
 	{#if $currObjects && $currObjects[currObj] && 'assets' in $currObjects[currObj]}
-		<div class="proj-obj-view col-span-6">
-			<h3>{$currObjects[currObj].db_id}</h3>
-			<div class="proj-obj-img-cont">
-				{#each $currObjects[currObj].assets as image}
-					<img class="proj-obj-img" src={image.url} alt="object" />
-					<input type="checkbox" bind:checked={image.selected} />
-				{/each}
-			</div>
-		</div>
+		{#each $currObjects as object, i}
+			<ImageSelector {i} />
+		{/each}
 	{/if}
 </div>
-
-<style>
-    .btn{
-        height:30px;
-        line-height: 20px;
-    }
-</style>

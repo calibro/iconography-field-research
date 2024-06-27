@@ -15,15 +15,23 @@ currProject.subscribe((project) => {
 
 export const addProject = (project) => {
     project.id = uuidv4();
+    project.date = new Date().toISOString();
     projects.update((projects) => {
         return [...projects, project];
     });
 }
 
+export const getProjectByID = (id) => {
+    let prj = get(projects).find((p) => p.id === id);
+    currProject.set(prj);
+}
+
 export const removeProject = (project) => {
     projects.update((projects) => {
-        return projects.filter((p) => p !== project);
+        return projects.filter((p) => p.id !== project.id);
     });
+    saveAllProjects();
+
 }
 
 export const setCurrentProject = (project) => {
@@ -52,5 +60,13 @@ export const saveProject = (project) => {
         }
     });
     console.log(get(projects));
+    saveAllProjects();
+}
+
+const saveAllProjects = () => {
     browser && localStorage.setItem("projects", JSON.stringify(get(projects)));
+}
+
+export const getCurrentProjectUrl = () => {
+    return `https://digitalbenin.org/catalogue/${$currProject.id}`;
 }
