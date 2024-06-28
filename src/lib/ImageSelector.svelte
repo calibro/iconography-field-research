@@ -8,16 +8,14 @@
 	let open = $state(i == 0 ? true : false);
 	const toggleOpen = () => (open = !open);
 	const selectAll = () => {
-		currObjects.update((objs) => {
-			objs[i].assets.forEach((e) => (e.selected = true));
-			return objs;
-		});
+		let newObjs = get(currObjects);
+		newObjs[i].assets.forEach((e) => (e.selected = true));
+		currObjects.set(newObjs);
 	};
 	const deselectAll = () => {
-		currObjects.update((objs) => {
-			objs[i].assets.forEach((e) => (e.selected = false));
-			return objs;
-		});
+		let newObjs = get(currObjects);
+		newObjs[i].assets.forEach((e) => (e.selected = false));
+		currObjects.set(newObjs);
 	};
 </script>
 
@@ -44,10 +42,14 @@
 					<button class="underline" onclick={deselectAll}>Deselect All</button>
 				</div>
 			</div>
-			<div class="image-selector-images flex flex-wrap gap-2">
+			<div class="image-selector-images grid grid-cols-6 gap-2">
 				{#each $currObjects[i].assets as image}
-					<div class="image-selector-image w-48 h-48 relative bg-white">
-						<input class="absolute top-2 left-2 checkbox" type="checkbox" bind:checked={image.selected} />
+					<div class="image-selector-image col-span-1 max-h-48 relative bg-white">
+						<input
+							class="absolute top-2 left-2 checkbox"
+							type="checkbox"
+							bind:checked={image.selected}
+						/>
 						<div
 							class="image-selector-image-overlay flex w-full h-full justify-center items-center"
 						>

@@ -38,11 +38,12 @@
 		let objIds = parsedObjects.filter((d) => d.valid).map((d) => d.value.split('/').pop());
 		setProjectIds(objIds);
 		setProjectLinks(objectLinks);
-		setProjectObjects(get(currObjects));
+		//setProjectObjects(get(currObjects));
 		step.set('editObjects');
 	};
 
 	$effect(() => {
+
 		validated = false;
 		linkErrors = [];
 		idErrors = [];

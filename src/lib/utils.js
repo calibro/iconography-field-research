@@ -10,3 +10,7 @@ export const isValidDBUrl = (urlString) => {
       ? subString.slice(0, subString.lastIndexOf(" ")) 
       : subString) + "…";
   };
+
+  export const getObjectUrl = (id) => {
+    return `https://digitalbenin.org/catalogue/${id}`
+  }

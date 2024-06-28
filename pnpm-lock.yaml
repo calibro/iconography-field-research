@@ -20,6 +20,9 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      print-js:
+        specifier: ^1.6.0
+        version: 1.6.0
       uuid:
         specifier: ^10.0.0
         version: 10.0.0
@@ -1059,6 +1062,9 @@ packages:
     resolution: {integrity: sha512-rAVeHYMcv8ATV5d508CFdn+8/pHPpXeIid1DdrPwXnaAdH7cqjVbpJaT5eq4yRAFU/lsbwYwSF/n5iNrdJHPQA==}
     engines: {node: '>=14'}
     hasBin: true
+
+  print-js@1.6.0:
+    resolution: {integrity: sha512-BfnOIzSKbqGRtO4o0rnj/K3681BSd2QUrsIZy/+WdCIugjIswjmx3lDEZpXB2ruGf9d4b3YNINri81+J0FsBWg==}
 
   process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
@@ -2279,6 +2285,8 @@ snapshots:
       svelte: 5.0.0-next.165
 
   prettier@3.3.2: {}
+
+  print-js@1.6.0: {}
 
   process-nextick-args@2.0.1: {}
 

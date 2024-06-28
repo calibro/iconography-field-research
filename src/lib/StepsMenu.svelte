@@ -1,11 +1,7 @@
 <script>
-	import { step } from '$lib/projectStore';
-	import { currProject } from '$lib/projectStore';
+	import { currProject, step } from '$lib/projectStore';
 	import { get } from 'svelte/store';
 
-	$effect(() => {
-		console.log(get(currProject));
-	})
 </script>
 
 <div class="sticky top-28">

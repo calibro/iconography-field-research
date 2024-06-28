@@ -30,8 +30,8 @@
 			newProj = get(currProject);
 		}	
 		else {
-			currProject.set(null)
-			currObjects.set({})
+			//currProject.set(null)
+			//currObjects.set({})
 		}
 		})
 		

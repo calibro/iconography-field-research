@@ -1,9 +1,10 @@
-import { writable, get } from 'svelte/store';
+import { writable, derived, get } from 'svelte/store';
 import { browser } from '$app/environment';
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 import { currProject } from './projectStore';
 import { PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET } from '$env/static/public';
+import _ from 'lodash';
 
 const projectId = PUBLIC_SANITY_PROJECT_ID;
 const dataset = PUBLIC_SANITY_DATASET;
@@ -23,51 +24,83 @@ const urlFor = (source) => {
 export const objects = writable(
 	browser && localStorage.getItem('objects') ? JSON.parse(localStorage.getItem('objects')) : {}
 );
-export const currObjects = writable({});
+export const currObjects = derived(currProject, ($value) => $value?.objects);
+currObjects.set = (newItems) =>
+	currProject.update((project) => ({ ...project, objects: newItems }));
 
 const objectsQuery = (objIDs) => {
-	return `*[_type == "benin_object" && db_id in ${JSON.stringify(objIDs)}]{db_id,images}`;
+	return `*[_type == "benin_object" && db_id in ${JSON.stringify(objIDs)}]{db_id,images,"institution":institution->name}`;
 };
 
 export const getObjects = async (givenIds) => {
+	// se è già nel progetto aggiungi da lì. Se è in cache prendi da lì. Sennò scarica.
 	let objList = get(objects);
 	let toFetch = [];
-	let ids = []
-	if(givenIds) ids = givenIds
-	else  ids = get(currProject).ids;
-	ids.forEach((id) => {
-		if (!objList[id]) {
-			toFetch.push(id);
+	let fromLocal = [];
+	let ids = [];
+	let finalObjs = [];
+
+	if (givenIds) ids = givenIds;
+	else ids = get(currProject).ids;
+
+	ids.forEach(async (id) => {
+		const proj = get(currProject);
+		if (proj.objects) {
+			let foundObj = proj.objects.find((d) => d.db_id == id);
+			if (foundObj) {
+				finalObjs.push(foundObj);
+			} else {
+				fromLocal.push(id);
+				if (!objList[id]) {
+					toFetch.push(id);
+				}
+			}
 		}
 	});
-
 	if (toFetch.length > 0) {
 		await getRemoteObjects(toFetch);
 	}
-    //objList = get(objects);
-	currObjects.set(ids.map((d) => objList[d]));
-	//return objList.map((d) => objList[d.db_id]);
+
+	objList = get(objects);
+	fromLocal.forEach((id) => {
+		if (objList[id]) {
+			let foundObj = objList[id];
+			foundObj.assets[0].selected = true;
+			finalObjs.push(foundObj);
+		}
+	});
+	currObjects.set(finalObjs);
 };
 
 const addObjects = (newObjects) => {
 	objects.update((objects) => {
 		newObjects.forEach((d) => {
-            d['assets'] = d['images'].map((e,i) => {
-                return {
-                    url:urlFor(e).width(500).url(),
-                    selected: i == 0 ? true : false
-                }
-        });
+			d['assets'] = d['images'].map((e, i) => {
+				return {
+					url: urlFor(e).width(500).url(),
+					selected: i == 0 ? true : false
+				};
+			});
 			delete d['images'];
 			objects[d['db_id']] = d;
-
 		});
-        return objects;
+		return objects;
 	});
 };
 
 const saveObjects = () => {
-	localStorage.setItem('objects', JSON.stringify(get(objects)));
+	//remove any "selected" property inside each "assets" object
+
+	let objList = get(objects);
+	for (const k in objList) {
+		if (objList[k].assets) {
+			objList[k].assets = objList[k].assets.map((d) => {
+				if (Object.keys(d).includes('selected')) delete d.selected;
+				return d;
+			});
+		}
+	}
+	localStorage.setItem('objects', JSON.stringify(objList));
 };
 
 const getRemoteObjects = async (objList) => {
