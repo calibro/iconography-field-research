@@ -3,14 +3,6 @@
 	import { step } from '$lib/projectStore';
 	import ImageSelector from './ImageSelector.svelte';
 
-	$effect(async () => {
-		await getObjects();
-	});
-	/*
-	$effect(() => {
-		//console.log('curr object', currObj);
-	});
-	*/
 	let currObj = $state(null);
 
 	currObjects.subscribe((objects) => {

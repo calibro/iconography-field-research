@@ -2,7 +2,7 @@
 	import { projects, removeProject } from '$lib/projectStore';
 	import { truncate } from '$lib/utils';
 </script>
-
+{#if $projects.length}
 <h1 class="text-3xl font-bold mb-4">Projects</h1>
 
 <div id="proj-table" class="grid grid-cols-5 mb-6">
@@ -26,3 +26,7 @@
 		</div>
 	{/each}
 </div>
+{:else}
+    <h1 class="text-3xl font-bold mb-4">No saved projects</h1>
+    <p>You can start by creating a new project. All projects will be automaically saved and displayed here.</p>
+{/if}

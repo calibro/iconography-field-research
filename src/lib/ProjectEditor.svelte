@@ -27,10 +27,14 @@
 	};
 
 	const getAndValidate = async () => {
+		console.log("triggered get and validate");
 		const ids = parsedObjects.filter((d) => d.valid).map((d) => d.value.split('/').pop());
 		await getObjects(ids);
-		idErrors = _.difference( ids, get(currObjects).map((d) => d?.db_id));
-		if( !idErrors.length && !linkErrors.length ) validated = true;
+		//setTimeout(()=>{
+			idErrors = _.difference( ids, get(currObjects).map((d) => d?.db_id));
+			if( !idErrors.length && !linkErrors.length ) validated = true;	
+		//})
+		
 	}
 
 
@@ -38,6 +42,7 @@
 		let objIds = parsedObjects.filter((d) => d.valid).map((d) => d.value.split('/').pop());
 		setProjectIds(objIds);
 		setProjectLinks(objectLinks);
+		
 		//setProjectObjects(get(currObjects));
 		step.set('editObjects');
 	};
@@ -107,7 +112,7 @@
 {/if}
 
 <div class="flex gap-4">
-	<button class:btn-disabled={!objectLinks} class="btn btn-primary" onclick={() => getAndValidate()}
+	<button class:btn-disabled={!objectLinks} class="btn btn-primary" onclick={async () => await getAndValidate()}
 		>Get Objects</button
 	>
 	<button

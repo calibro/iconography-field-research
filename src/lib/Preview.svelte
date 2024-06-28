@@ -46,9 +46,9 @@
 		<p>Check the preview of the pdf and save it on your computer.</p>
 	</div>
 	<div bind:this={content} class="proj-prev-container bg-light-gray grow-1 overflow-y-auto">
-		{#each $currObjects as object}
+		{#each $currObjects as object,j}
 			{#each object.assets.filter((e) => e.selected) as image,i}
-				<div class:mb-4={!save} class="proj-prev-cont pt-2 bg-white mx-auto">
+				<div class:mt-4={!save && i ==0 && j == 0} class:mb-4={!save} class="proj-prev-cont pt-2 bg-white mx-auto">
 					<ObjectPage {object} {image} pgNum={getPageNum(object.db_id,i)} />
 				</div>
 			{/each}
