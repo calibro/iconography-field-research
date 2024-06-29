@@ -1,7 +1,5 @@
 <script>
 	import { currProject, step } from '$lib/projectStore';
-	import { get } from 'svelte/store';
-
 </script>
 
 <div class="sticky top-28">

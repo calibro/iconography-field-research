@@ -10,7 +10,7 @@ export const step = writable('init');
 
 currProject.subscribe((project) => {
 	if (project) {
-        console.log("saving project", project)
+		console.log('saving project', project);
 		saveProject(project);
 	}
 });

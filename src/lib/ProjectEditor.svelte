@@ -1,6 +1,11 @@
 <script>
-	import { currProject, setProjectIds, setProjectLinks, setProjectObjects,step } from '$lib/projectStore';
-	import {getObjects, currObjects}	from '$lib/objectStore';
+	import {
+		currProject,
+		setProjectIds,
+		setProjectLinks,
+		step
+	} from '$lib/projectStore';
+	import { getObjects, currObjects } from '$lib/objectStore';
 	import { get } from 'svelte/store';
 	import { isValidDBUrl } from '$lib/utils';
 	import { untrack } from 'svelte';
@@ -11,10 +16,12 @@
 	let linkErrors = $state([]);
 	let idErrors = $state([]);
 	let validated = $state(false);
+	let loading = $state(false);
 
 	const parseObjects = () => {
 		if ($state.is(objectLinks, null)) return;
-		let lines = objectLinks.split('\n');
+		let lines = objectLinks.trim().split('\n');
+		lines = lines.filter(e => e.length);
 		untrack(() => {
 			for (let line of lines) {
 				let validatedUrl = { value: line, valid: false };
@@ -27,28 +34,27 @@
 	};
 
 	const getAndValidate = async () => {
-		console.log("triggered get and validate");
+		loading = true;
 		const ids = parsedObjects.filter((d) => d.valid).map((d) => d.value.split('/').pop());
 		await getObjects(ids);
-		//setTimeout(()=>{
-			idErrors = _.difference( ids, get(currObjects).map((d) => d?.db_id));
-			if( !idErrors.length && !linkErrors.length ) validated = true;	
-		//})
-		
-	}
 
+		// check for errors
+		idErrors = _.difference(
+			ids,
+			get(currObjects).map((d) => d?.db_id)
+		);
+		if (!idErrors.length && !linkErrors.length) validated = true;
+		loading = false;
+	};
 
 	const selectImages = () => {
 		let objIds = parsedObjects.filter((d) => d.valid).map((d) => d.value.split('/').pop());
 		setProjectIds(objIds);
 		setProjectLinks(objectLinks);
-		
-		//setProjectObjects(get(currObjects));
 		step.set('editObjects');
 	};
 
 	$effect(() => {
-
 		validated = false;
 		linkErrors = [];
 		idErrors = [];
@@ -81,28 +87,27 @@
 		placeholder="paste a list of Digital Benin objects here, each one on a new line"
 		bind:value={objectLinks}
 	></textarea>
-
 </div>
 {#if linkErrors.length}
-<div class="toast toast-alert mb-4">
-	<p>The following links are not valid:</p>
-	<ul>
-		{#each linkErrors as error}
-			<li>• {error.value}</li>
-		{/each}
-	</ul>
-</div>
-{/if} 
+	<div class="toast toast-alert mb-4">
+		<p>The following links are not valid:</p>
+		<ul>
+			{#each linkErrors as error}
+				<li>• {error.value}</li>
+			{/each}
+		</ul>
+	</div>
+{/if}
 
 {#if idErrors.length}
-<div class="toast toast-alert mb-4">
-	<p>The following objects are not in the catalogue:</p>
-	<ul>
-		{#each idErrors as error}
-			<li>• {error}</li>
-		{/each}
-	</ul>
-</div>
+	<div class="toast toast-alert mb-4">
+		<p>The following objects are not in the catalogue:</p>
+		<ul>
+			{#each idErrors as error}
+				<li>• {error}</li>
+			{/each}
+		</ul>
+	</div>
 {/if}
 
 {#if validated}
@@ -112,12 +117,18 @@
 {/if}
 
 <div class="flex gap-4">
-	<button class:btn-disabled={!objectLinks} class="btn btn-primary" onclick={async () => await getAndValidate()}
-		>Get Objects</button
-	>
 	<button
-		class:btn-disabled={!validated}
+		class:btn-disabled={!objectLinks}
 		class="btn btn-primary"
-		onclick={() => selectImages()}>Next</button
+		onclick={async () => await getAndValidate()}
+	>
+		{#if loading}
+			<span class="i-svg-spinners-90-ring-with-bg px-10"></span>
+		{:else}
+			Get objects
+		{/if}
+	</button>
+	<button class:btn-disabled={!validated} class="btn btn-primary" onclick={() => selectImages()}
+		>Next</button
 	>
 </div>

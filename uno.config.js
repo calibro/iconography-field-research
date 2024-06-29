@@ -33,14 +33,16 @@ export default defineConfig({
 				'vertical-align': 'middle'
 			},
 			collections: {
-				mdi: () => import('@iconify-json/mdi-light/icons.json').then((i) => i.default)
+				mdi: () => import('@iconify-json/mdi-light/icons.json').then((i) => i.default),
+				"svg-spinners": () => import('@iconify-json/svg-spinners/icons.json').then(i => i.default),
 			}
 		}),
 		presetWebFonts({
 			provider: 'google', // default provider
 			fonts: {
 				sans: {
-					name: 'Inter',
+					name: 'Arial',
+					provider: 'none',
 					weights: ['400', '600', '700']
 				}
 			}

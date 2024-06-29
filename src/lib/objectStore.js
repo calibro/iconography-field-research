@@ -25,9 +25,9 @@ export const objects = writable(
 	browser && localStorage.getItem('objects') ? JSON.parse(localStorage.getItem('objects')) : {}
 );
 export const currObjects = derived(currProject, ($value) => $value?.objects);
-currObjects.set = (newItems) =>{
+currObjects.set = (newItems) => {
 	currProject.update((project) => ({ ...project, objects: newItems }));
-}
+};
 const objectsQuery = (objIDs) => {
 	return `*[_type == "benin_object" && db_id in ${JSON.stringify(objIDs)}]{db_id,images,"institution":institution->name}`;
 };
@@ -47,21 +47,15 @@ export const getObjects = async (givenIds) => {
 		const proj = get(currProject);
 		if (proj.objects) {
 			let foundObj = proj.objects.find((d) => d.db_id == id);
-			console.log("will it find it?", proj.objects, id, foundObj);
 			if (foundObj) {
-				console.log("found it");
 				finalObjs.push(foundObj);
 				continue;
 			}
 		}
 		fromLocal.push(id);
-		if (objList && !Object.hasOwnProperty(objList, id)) {
-			toFetch.push(id);
-		}
+		if (objList && !Object.hasOwnProperty(objList, id)) toFetch.push(id);
 	}
-	if (toFetch.length > 0) {
-		await getRemoteObjects(toFetch);
-	}
+	if (toFetch.length > 0) await getRemoteObjects(toFetch);
 
 	objList = get(objects);
 	fromLocal.forEach((id) => {

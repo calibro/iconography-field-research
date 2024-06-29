@@ -1,9 +1,14 @@
 <script>
-	import { addProject, setCurrentProject,getProjectByID, currProject,step } from '$lib/projectStore';
-	import { currObjects } from '$lib/objectStore';
+	import {
+		addProject,
+		setCurrentProject,
+		getProjectByID,
+		currProject,
+		step
+	} from '$lib/projectStore';
 	import ProjectEditor from '$lib/ProjectEditor.svelte';
 	import ObjectsEditor from '$lib/ObjectsEditor.svelte';
-	import {get} from 'svelte/store';
+	import { get } from 'svelte/store';
 	import Preview from '$lib/Preview.svelte';
 	import { slide } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
@@ -13,12 +18,11 @@
 	let newProj = $state({});
 
 	const addNewProj = () => {
-		if($page.params.id === 'new') {
-
+		if ($page.params.id === 'new') {
 			addProject(newProj);
-			setCurrentProject(newProj);	
+			setCurrentProject(newProj);
 		}
-		
+
 		step.set('editProject');
 	};
 
@@ -26,16 +30,11 @@
 		let id = $page.params.id;
 		untrack(() => {
 			if (id !== 'new') {
-			getProjectByID(id);
-			newProj = get(currProject);
-		}	
-		else {
-			//currProject.set(null)
-			//currObjects.set({})
-		}
-		})
-		
-	})
+				getProjectByID(id);
+				newProj = get(currProject);
+			}
+		});
+	});
 </script>
 
 {#if $step === 'init'}

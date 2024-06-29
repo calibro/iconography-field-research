@@ -1,43 +1,41 @@
 <script>
 	import { currObjects } from '$lib/objectStore';
-	import {get} from 'svelte/store'
+	import { get } from 'svelte/store';
 	import NotesPage from './NotesPage.svelte';
 	import ObjectPage from './ObjectPage.svelte';
-	import _ from 'lodash'
+	import _ from 'lodash';
 
 	const getPageNum = (id, i) => {
 		let pgNum = 1;
 		const objs = get(currObjects);
-		for(const o of objs){
-			if(o.db_id != id) {
-				pgNum += o.assets.filter(e=>e.selected).length + 1;
-			}
-			else break;
+		for (const o of objs) {
+			if (o.db_id != id) {
+				pgNum += o.assets.filter((e) => e.selected).length + 1;
+			} else break;
 		}
-		return pgNum+i;
-	}
-	let content = $state(null)
-	let save = $state(false)
+		return pgNum + i;
+	};
+	let content = $state(null);
+	let save = $state(false);
 	let opt = {
-            margin: 0,
-            filename: 'interview.pdf',
-            //image: { type: 'jpeg', quality: 0.20 },
-            html2canvas: { useCORS: true },
-            jsPDF: { unit: 'cm', format: 'a4', orientation: 'p' },
-			pagebreak: {mode:'css', avoid:'.proj-prev-cont'}
-        };
+		margin: 0,
+		filename: 'interview.pdf',
+		//image: { type: 'jpeg', quality: 0.20 },
+		html2canvas: { useCORS: true },
+		jsPDF: { unit: 'cm', format: 'a4', orientation: 'p' },
+		pagebreak: { mode: 'css', avoid: '.proj-prev-cont' }
+	};
 
 	const savepdf = () => {
 		save = true;
-	}
+	};
 
 	$effect(async () => {
-		if($state.is(save,true)){
-		await html2pdf().set(opt).from(content).save();
-		save = false
+		if ($state.is(save, true)) {
+			await html2pdf().set(opt).from(content).save();
+			save = false;
 		}
-	})
-
+	});
 </script>
 
 <div class="prev-cont flex flex-col gap-4 mb-4 verflow-y-hidden">
@@ -46,18 +44,24 @@
 		<p>Check the preview of the pdf and save it on your computer.</p>
 	</div>
 	<div bind:this={content} class="proj-prev-container bg-light-gray grow-1 overflow-y-auto">
-		{#each $currObjects as object,j}
-			{#each object.assets.filter((e) => e.selected) as image,i}
-				<div class:mt-4={!save && i ==0 && j == 0} class:mb-4={!save} class="proj-prev-cont pt-2 bg-white mx-auto">
-					<ObjectPage {object} {image} pgNum={getPageNum(object.db_id,i)} />
+		{#each $currObjects as object, j}
+			{#each object.assets.filter((e) => e.selected) as image, i}
+				<div
+					class:mt-4={!save && i == 0 && j == 0}
+					class:mb-4={!save}
+					class="proj-prev-cont pt-2 bg-white mx-auto"
+				>
+					<ObjectPage {object} {image} pgNum={getPageNum(object.db_id, i)} />
 				</div>
 			{/each}
 			<div class:mb-4={!save} class="proj-prev-cont pt-2 bg-white mx-auto">
-				<NotesPage pgNum={getPageNum(object.db_id,object.assets.filter((e) => e.selected).length)}/>
+				<NotesPage
+					pgNum={getPageNum(object.db_id, object.assets.filter((e) => e.selected).length)}
+				/>
 			</div>
 		{/each}
 	</div>
-	<button onclick="{savepdf}" class="btn btn-lg btn-primary shrink-0">Save the PDF</button>
+	<button onclick={savepdf} class="btn btn-lg btn-primary shrink-0">Save the PDF</button>
 </div>
 
 <style>
@@ -71,5 +75,4 @@
 	.proj-prev-cont:last-child {
 		page-break-after: avoid;
 	}
-
 </style>

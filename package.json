@@ -12,6 +12,7 @@
 	"devDependencies": {
 		"@castlenine/svelte-qrcode": "^2.2.0",
 		"@iconify-json/mdi-light": "^1.1.10",
+		"@iconify-json/svg-spinners": "^1.1.2",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
