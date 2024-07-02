@@ -64,6 +64,7 @@ export const saveProject = (project) => {
 	projects.update((projects) => {
 		const selPrj = projects.find((p) => p.id === project.id); // find the selected prj
 		if (selPrj) {
+			project.date = new Date().toISOString();
 			return projects.map((p) => (p.id === project.id ? project : p));
 		}
 	});
