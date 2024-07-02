@@ -1,0 +1,1 @@
+export const env={"PUBLIC_SANITY_PROJECT_ID":"8q01xvhz","PUBLIC_SANITY_DATASET":"development","PUBLIC_AIRTABLE_PROJECT":"https://airtable.com/appP6q5gukoNcz1OT/shr1v3iMtTSI2T5sI"}
