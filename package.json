@@ -7,7 +7,8 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"lint": "prettier --check .",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"deploy": "pnpm build && pnpx gh-pages -d build -t true -r https://github.com/calibro/iconography-field-research.git"
 	},
 	"devDependencies": {
 		"@castlenine/svelte-qrcode": "^2.2.0",
@@ -21,6 +22,7 @@
 		"@unocss/preset-icons": "^0.61.0",
 		"@unocss/preset-uno": "^0.61.0",
 		"@unocss/preset-web-fonts": "^0.61.0",
+		"gh-pages": "^6.1.1",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
 		"svelte": "^5.0.0-next.1",

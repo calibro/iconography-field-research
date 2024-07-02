@@ -1,6 +1,8 @@
 <script>
 	import { projects, removeProject } from '$lib/projectStore';
 	import { truncate } from '$lib/utils';
+	import { base } from '$app/paths';
+
 </script>
 
 {#if $projects.length}
@@ -13,7 +15,7 @@
 		<div class="col-span-1 col-head">Number of objects</div>
 		<div class="col-span-1 col-head">Actions</div>
 		{#each $projects as project}
-			<a class="block col-span-1 col-body font-bold underline" href="/project/{project.id}">
+			<a class="block col-span-1 col-body font-bold underline" href="{base}/project/{project.id}">
 				{project.name}
 			</a>
 			<div class="col-span-1 col-body">
@@ -22,7 +24,7 @@
 			<div class="col-span-1 col-body">{project?.date?.substring(0, 10)}</div>
 			<div class="col-span-1 col-body">{project?.ids?.length}</div>
 			<div class="col-span-1 col-body">
-				<a href="/project/{project.id}" class="btn btn-secondary">Open</a>
+				<a href="{base}/project/{project.id}" class="btn btn-secondary">Open</a>
 				<button onclick={() => removeProject(project)} class="btn btn-alert">Delete</button>
 			</div>
 		{/each}

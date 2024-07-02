@@ -3,7 +3,7 @@
 	import Header from '$lib/Header.svelte';
 	import ProjectList from '$lib/ProjectList.svelte';
 	import { step } from '$lib/projectstore';
-
+	import { base } from '$app/paths';
 	$effect(() => {
 		step.set('init');
 	});
@@ -32,7 +32,7 @@
 					gravida at eget metus.
 				</p>
 
-				<a href="/project/new" class="btn btn-lg btn-primary">Create new project</a>
+				<a href="{base}/project/new" class="btn btn-lg btn-primary">Create new project</a>
 			</div>
 		</div>
 		<div class="container mx-auto mt-8">
