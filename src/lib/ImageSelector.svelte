@@ -19,7 +19,7 @@
 	};
 </script>
 
-<div class:rounded-t-lg={i == 0} class="image-selector outline outline-1 outline-light-gray">
+<div class:rounded-t-lg={i == 0} class="ms-1 image-selector outline outline-1 outline-light-gray">
 	<button
 		onclick={toggleOpen}
 		class="w-full block image-selector-title text-xl px-4 my-6 flex justify-between"

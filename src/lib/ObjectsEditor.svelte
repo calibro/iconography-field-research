@@ -23,4 +23,15 @@
 			<ImageSelector {i} />
 		{/each}
 	{/if}
+	<div class="next-btn-cont mt-4 flex items-center h-20 sticky bottom-0 bg-white">
+		<button class="h-8 btn btn-primary" onclick={() => step.set('preview')}>Preview</button></div>
 </div>
+<style>
+	.next-btn-cont {
+		z-index: 1;
+		width:calc(100% + 2px);
+		left:-2px;
+		outline:1px white;
+		border: 1px solid white;
+	}
+</style>

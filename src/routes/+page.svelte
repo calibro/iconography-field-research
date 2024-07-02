@@ -17,7 +17,7 @@
 	<main class="font-sans grow-1">
 		<div class="home-header w-full h-96 relative">
 			<img
-				src="/home-bg.png"
+				src="{base}/home-bg.png"
 				alt="Digital Benin background"
 				class="w-full h-full object-cover brightness-50"
 			/>

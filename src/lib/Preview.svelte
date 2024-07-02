@@ -43,7 +43,7 @@
 		<h1 class="text-3xl font-bold mb-4">Preview and save</h1>
 		<p>Check the preview of the pdf and save it on your computer.</p>
 	</div>
-	<div bind:this={content} class:pt-4={!save} class="proj-prev-container bg-light-gray grow-1 overflow-y-auto">
+	<div bind:this={content} class="proj-prev-container bg-light-gray grow-1 overflow-y-auto">
 		{#each $currObjects as object, j}
 			{#each object.assets.filter((e) => e.selected) as image, i}
 				<div
