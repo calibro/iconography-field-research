@@ -1,5 +1,6 @@
 <script>
 	import { currObjects } from '$lib/objectStore';
+	import { currProject } from '$lib/projectStore';
 	import { get } from 'svelte/store';
 	import NotesPage from './NotesPage.svelte';
 	import ObjectPage from './ObjectPage.svelte';
@@ -19,7 +20,7 @@
 	let save = $state(false);
 	let opt = {
 		margin: 0,
-		filename: 'interview.pdf',
+		filename: _.kebabCase(get(currProject).name),
 		//image: { type: 'jpeg', quality: 0.20 },
 		html2canvas: { useCORS: true },
 		jsPDF: { unit: 'cm', format: 'a4', orientation: 'p' },
@@ -33,7 +34,7 @@
 	$effect(async () => {
 		if ($state.is(save, true)) {
 			await html2pdf().set(opt).from(content).save();
-			save = false;
+			setTimeout(()=>{save = false}, 500);
 		}
 	});
 </script>

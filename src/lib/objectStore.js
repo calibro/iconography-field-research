@@ -73,7 +73,7 @@ const addObjects = (newObjects) => {
 		newObjects.forEach((d) => {
 			d['assets'] = d['images'].map((e, i) => {
 				return {
-					url: urlFor(e).width(500).url(),
+					url: urlFor(e).width(1250).url(),
 					selected: i == 0 ? true : false
 				};
 			});
