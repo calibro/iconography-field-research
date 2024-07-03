@@ -71,7 +71,7 @@
 
 <style>
 	.prev-cont {
-		height: calc(100vh - 18rem);
+		height: calc(100vh - 18rem - 2rem);
 	}
 	.proj-prev-cont {
 		height: 29.7cm;
