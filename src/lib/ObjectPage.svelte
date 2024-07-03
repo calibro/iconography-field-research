@@ -45,12 +45,12 @@
 
 <style>
 	.proj-prev-img-cont {
-		height: 88%;
+		height: 83%;
 		background-repeat: no-repeat;
 		background-size: contain;
 		background-position: center center;
 	}
 	.object-page {
-		height: 94.5%;
+		height: 94%;
 	}
 </style>

@@ -18,11 +18,12 @@
 	};
 	let content = $state(null);
 	let save = $state(false);
+
 	let opt = {
 		margin: 0,
 		filename: _.kebabCase(get(currProject).name),
 		//image: { type: 'jpeg', quality: 0.20 },
-		html2canvas: { useCORS: true },
+		html2canvas: { useCORS: true, scrollY: 0 },
 		jsPDF: { unit: 'cm', format: 'a4', orientation: 'p' },
 		pagebreak: { mode: 'css', avoid: '.proj-prev-cont' }
 	};
@@ -33,8 +34,12 @@
 
 	$effect(async () => {
 		if ($state.is(save, true)) {
-			await html2pdf().set(opt).from(content).save();
-			setTimeout(()=>{save = false}, 500);
+			window.scrollTo(0, 0);
+			setTimeout(async ()=>{
+				await html2pdf().set(opt).from(content).save();
+				setTimeout(()=>{save = false}, 100);
+			})
+			
 		}
 	});
 </script>
