@@ -34,8 +34,11 @@
 		"@sanity/client": "^6.20.1",
 		"@sanity/image-url": "^1.0.2",
 		"@unocss/reset": "^0.61.0",
+		"jspdf": "^2.5.1",
 		"lodash": "^4.17.21",
 		"print-js": "^1.6.0",
+		"qrcode": "^1.5.3",
+		"svg2pdf.js": "^2.2.4",
 		"uuid": "^10.0.0"
 	}
 }
