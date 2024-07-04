@@ -53,7 +53,7 @@
 						<div
 							class="image-selector-image-overlay flex w-full h-full justify-center items-center"
 						>
-							<img class="max-w-full max-h-full object-contain" src={image.url} alt="object" />
+							<img loading="lazy" class="max-w-full max-h-full object-contain" src={image.url} alt="object" />
 						</div>
 					</div>
 				{/each}
