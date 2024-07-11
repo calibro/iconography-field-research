@@ -65,7 +65,7 @@
 			>
 			</textarea>
 		</div>
-		<button class:btn-disabled={!newProj.name} class="btn btn-primary" onclick={addNewProj}
+		<button disabled={!newProj.name} class:btn-disabled={!newProj.name} class="btn btn-primary" onclick={addNewProj}
 			>Next</button
 		>
 	</div>

@@ -119,6 +119,7 @@
 <div class="flex gap-4">
 	<button
 		class:btn-disabled={!objectLinks}
+		disabled={!objectLinks}
 		class="btn btn-primary"
 		onclick={async () => await getAndValidate()}
 	>
@@ -128,7 +129,7 @@
 			Get objects
 		{/if}
 	</button>
-	<button class:btn-disabled={!validated} class="btn btn-primary" onclick={() => selectImages()}
+	<button disabled={!validated} class:btn-disabled={!validated} class="btn btn-primary" onclick={() => selectImages()}
 		>Next</button
 	>
 </div>

@@ -110,7 +110,7 @@
 		}
 
 		// save the created pdf
-		doc.save('myPDF.pdf');
+		doc.save(get(currProject).name + '.pdf');
 		setTimeout(() => {
 			save = false;
 		}, 100);
